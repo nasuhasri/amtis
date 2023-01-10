@@ -11,10 +11,12 @@
 
 // https: //www.blogfaiz.com/cara-kira-kos-elektrik-bagi-setiap-peralatan-elektrik-rumah/
 
+/** Formula to calculate electricity bills */
 // Power (Wh) = Voltage (V) * Current  (A)
 // Energy (kWh) = Power * Hour * 1000 ;
 // Total = Energy(kWh) * (current rate/100);
 
+// calculation function
 function calculate($energy)
 {
     $total = 0;
@@ -79,10 +81,7 @@ function calculate($energy)
     return $total;
 }
 
-// Power (Wh) = Voltage (V) * Current  (A)
-// Energy (kWh) = Power * Hour * 1000 ;
-// Total = Energy(kWh) * (current rate/100);
-
+// to display output in the same page
 if (isset($_POST['submitBtn'])) {
     // user input
     $voltage = $_POST['voltage'];
@@ -96,11 +95,13 @@ if (isset($_POST['submitBtn'])) {
     $total = [];
     $energy = [];
 
+    // loop for 24 hours
     for ($i = 0; $i < 24; $i++) {
         $energy[$i] = ($power / 1000) * ($i + 1); // kWh
         $total[$i] = calculate($energy[$i]);
     }
 } else {
+    // default value
     $voltage = 0;
     $current = 0;
     $current_rate = 0;
@@ -137,7 +138,6 @@ if (isset($_POST['submitBtn'])) {
           <input type="number" class="form-control" name="current_rate" id="current_rate" step="any" placeholder="Example: 21.8">
         </div>
 
-        <!-- <input type="submit" class="btn btn-primary">Calculate</button> -->
         <input type="submit" name="submitBtn" class="btn btn-primary" value="Calculate">
       </form>
     </div>
@@ -161,16 +161,13 @@ if (isset($_POST['submitBtn'])) {
           <?php
 for ($i = 0; $i < 24; $i++) {
     ?>
-              <tr>
-                <th><?php echo ($i + 1); ?></th>
-                <td><?php echo ($i + 1); ?></td>
-                <td><?php echo ($energy[$i]); ?></td>
-                <td><?php echo ($total[$i]); ?></td>
-              </tr>
-
-            <?php
-}
-?>
+            <tr>
+              <th><?php echo ($i + 1); ?></th>
+              <td><?php echo ($i + 1); ?></td>
+              <td><?php echo ($energy[$i]); ?></td>
+              <td><?php echo ($total[$i]); ?></td>
+            </tr>
+          <?php }?>
         </tbody>
       </table>
     </div>
